@@ -1,0 +1,39 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="twoway-element.html">
+
+<dom-module id="twoway-app">
+  <template>
+    <style>
+      :host {
+        margin: 12px;
+        display: block;
+      }
+    </style>
+    <h1>2 Way binding with Polymer</h1>
+    <h3>Parent says: {{prop1}}</h3>
+    <paper-input label="Parent Says What (real time)" bind-value="{{prop1}}"></paper-input>
+    <paper-input label="Parent Says What (button push)" value="{{prop2}}"></paper-input>
+    <button on-tap="updateMessage">Parent talk</button>
+
+    <twoway-element prop1="{{prop1}}"></twoway-element>
+    <twoway-element prop1="{{prop1}}"></twoway-element>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'twoway-app',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'Parent',
+        },
+      },
+      updateMessage: function() {
+        this.prop1 = this.prop2;
+      }
+
+    });
+  </script>
+</dom-module>

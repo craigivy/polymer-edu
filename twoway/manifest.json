@@ -1,0 +1,7 @@
+{
+  "name": "twoway",
+  "short_name": "twoway",
+  "description": "two way binding sample",
+  "start_url": "/",
+  "display": "standalone"
+}

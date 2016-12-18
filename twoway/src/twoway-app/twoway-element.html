@@ -1,0 +1,46 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+
+
+<dom-module id="twoway-element">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 10px;
+      }
+      paper-material {
+        margin: 24px;
+        padding: 12px;
+      }
+    </style>
+    <paper-material elevation="5">
+    <h3>Child says: {{prop1}}</h3>
+    <paper-input label="Child Says What (real time)" bind-value="{{prop1}}"></paper-input>
+    <paper-input label="Child Says What (button push)" value="{{prop2}}"></paper-input>
+    <button on-tap="updateMessage">Child talk</button>
+    </paper-material>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'twoway-element',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'test-element',
+          notify: true
+        }
+      },
+
+      updateMessage: function() {
+        this.prop1 = this.prop2;
+      }
+
+    });
+  </script>
+</dom-module>
