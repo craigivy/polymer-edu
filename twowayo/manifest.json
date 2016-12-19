@@ -1,0 +1,7 @@
+{
+  "name": "twowayo",
+  "short_name": "twowayo",
+  "description": "two way binding with objects",
+  "start_url": "/",
+  "display": "standalone"
+}

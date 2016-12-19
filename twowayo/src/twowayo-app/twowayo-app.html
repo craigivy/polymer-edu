@@ -1,0 +1,40 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="twowayo-element.html">
+
+<dom-module id="twowayo-app">
+  <template>
+    <style>
+      :host {
+        margin: 12px;
+        display: block;
+      }
+    </style>
+    <h1>2 Way Binding using an Object with Polymer</h1>
+    <h3>Parent says: {{message.prop1}}</h3>
+    <paper-input label="Parent Says What (real time)" bind-value="{{message.prop1}}"></paper-input>
+    <paper-input label="Parent Says What (button push)" value="{{prop2}}"></paper-input>
+    <button on-tap="updateMessage">Parent talk</button>
+
+    <twowayo-element message="{{message}}"></twowayo-element>
+    <twowayo-element message="{{message}}"></twowayo-element>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'twowayo-app',
+
+      properties: {
+        message: {
+          type: Object,
+          value: {"prop1":"","prop2":""},
+          notify: true
+        },
+      },
+      updateMessage: function() {
+        this.set('message.prop1', this.prop2);
+      }
+
+    });
+  </script>
+</dom-module>
