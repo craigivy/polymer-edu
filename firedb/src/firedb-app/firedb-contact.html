@@ -45,28 +45,11 @@
       },
 
       saveContact: function () {
-        // path = /<uid>/messages in your case
-
         this.$.contact.save("contact").then(function () {
           // after document saved, path will be changed to the new ref
           // any change of data will sent back up and stored
         });
-      },
-
-
-      createContact: function() {
-        this.set('contact.name', this.name);
-        alert('done');
-//          if (this.$.document.isNew &&
-//            (this.editableNote.title ||
-//            this.editableNote.body)) {
-//            return this.$.document.save('contact').then(function() {
-//              this.$.documentr.reset();
-//            }.bind(this));
-//          }
-
-//          return Promise.resolve();
-        }
+      }
 
     });
   </script>
