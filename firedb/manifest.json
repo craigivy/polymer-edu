@@ -1,0 +1,7 @@
+{
+  "name": "firedb",
+  "short_name": "firedb",
+  "description": "Sample using firebase DB",
+  "start_url": "/",
+  "display": "standalone"
+}

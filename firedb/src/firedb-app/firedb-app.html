@@ -1,0 +1,69 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="./firedb-contact.html">
+
+<dom-module id="firedb-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <!--<firebase-app-->
+        <!--name="torp"-->
+        <!--api-key="AIzaSyALNjDqyIS26gbuuZoTbYcOWWsjJZHbeHQ"-->
+        <!--auth-domain="torp-dba4b.firebaseapp.com"-->
+        <!--database-url="https://torp-dba4b.firebaseio.com">-->
+    <!--</firebase-app>-->
+
+    <!--path="[[editableNoteId]]"-->
+    <!--<firebase-document-->
+        <!--id="document"-->
+        <!--app-name="torp"-->
+        <!--path="/contact/[[contactId]]"-->
+        <!--data="{{contact}}">-->
+    <!--</firebase-document>-->
+
+    <!--<paper-input-->
+        <!--id="name"-->
+        <!--name="name"-->
+        <!--label="Name"-->
+        <!--value="{{contact.name}}"-->
+        <!--max="100"-->
+        <!--char-counter-->
+    <!--&gt;-->
+    <!--</paper-input>-->
+    <!--<button on-tap="saveContact">Add</button>-->
+
+    <firedb-contact
+        contact="{{contact}}" >
+    </firedb-contact>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'firedb-app',
+
+//      properties: {
+//        contact: {
+//          type: Object,
+//          value: {"name":""},
+//          notify: true
+//        }
+//      },
+
+//      saveContact: function () {
+//        // path = /<uid>/messages in your case
+//
+//        this.$.document.save("contact").then(function () {
+//          // after document saved, path will be changed to the new ref
+//          // any change of data will sent back up and stored
+//        });
+//      }
+
+    });
+  </script>
+</dom-module>

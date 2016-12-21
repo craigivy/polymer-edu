@@ -1,0 +1,73 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+
+
+<dom-module id="firedb-contact">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 10px;
+      }
+      paper-material {
+        margin: 24px;
+        padding: 12px;
+      }
+    </style>
+    <paper-material elevation="5">
+      <h2>Contact</h2>
+
+      <firebase-document
+          id="contact"
+          app-name="torp"
+          path="/contact/[[contactId]]"
+          data="{{contact}}">
+      </firebase-document>
+
+      <paper-input label="Name" value="{{contact.name}}"></paper-input>
+      <button on-tap="saveContact">Add</button>
+    </paper-material>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'firedb-contact',
+
+      properties: {
+        contact: {
+          type: Object,
+          value: {"name":""},
+          notify: true
+        }
+      },
+
+      saveContact: function () {
+        // path = /<uid>/messages in your case
+
+        this.$.contact.save("contact").then(function () {
+          // after document saved, path will be changed to the new ref
+          // any change of data will sent back up and stored
+        });
+      },
+
+
+      createContact: function() {
+        this.set('contact.name', this.name);
+        alert('done');
+//          if (this.$.document.isNew &&
+//            (this.editableNote.title ||
+//            this.editableNote.body)) {
+//            return this.$.document.save('contact').then(function() {
+//              this.$.documentr.reset();
+//            }.bind(this));
+//          }
+
+//          return Promise.resolve();
+        }
+
+    });
+  </script>
+</dom-module>
