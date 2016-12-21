@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="./firebase-config.html">
 <link rel="import" href="./firedb-contact.html">
 
 <dom-module id="firedb-app">
@@ -35,6 +36,8 @@
     <!--&gt;-->
     <!--</paper-input>-->
     <!--<button on-tap="saveContact">Add</button>-->
+
+    <firebase-config></firebase-config>
 
     <firedb-contact
         contact="{{contact}}" >
