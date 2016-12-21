@@ -1,0 +1,19 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
+
+<dom-module id="firebase-config">
+  <template>
+    <!-- Configure Firebase app: -->
+    <firebase-app
+        api-key="CHANGE_ME"
+        auth-domain="CHANGE_ME"
+        database-url="CHANGE_ME">
+    </firebase-app>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'firebase-config'
+    });
+  </script>
+</dom-module>
