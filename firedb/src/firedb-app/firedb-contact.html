@@ -20,8 +20,7 @@
 
       <firebase-document
           id="contact"
-          app-name="torp"
-          path="/contact/[[contactId]]"
+          path="/contact/{{contactId}}"
           data="{{contact}}">
       </firebase-document>
 
@@ -37,6 +36,10 @@
       is: 'firedb-contact',
 
       properties: {
+        contactId: {
+          type: String,
+          notify: true
+        },
         contact: {
           type: Object,
           value: {"name":""},
@@ -45,10 +48,15 @@
       },
 
       saveContact: function () {
-        this.$.contact.save("contact").then(function () {
+        this.$.contact.save("/contact").then(function () {
           // after document saved, path will be changed to the new ref
           // any change of data will sent back up and stored
         });
+      },
+
+      // helper function
+      jsonStringify: function(obj) {
+        return JSON.stringify(obj, null, 2);
       }
 
     });

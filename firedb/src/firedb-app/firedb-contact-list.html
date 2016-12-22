@@ -1,0 +1,61 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+
+
+<dom-module id="firedb-contact-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 10px;
+      }
+      paper-material {
+        margin: 24px;
+        padding: 12px;
+      }
+    </style>
+    <paper-material elevation="5">
+      <h2>Contact List</h2>
+
+      <firebase-query
+          id="query"
+          path="/contact"
+          data="{{contacts}}">
+      </firebase-query>
+
+      <template is="dom-repeat" items="{{contacts}}" as="qcontact">
+        <div>{{jsonStringify(qcontact)}}</div>
+      </template>
+
+    </paper-material>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'firedb-contact-list',
+
+//      properties: {
+//        contacts: {
+//          type: Object,
+//          observer: 'dataChanged'
+//        }
+//      },
+
+//      dataChanged: function (newData, oldData) {
+//        // do something when the query returns values
+//        console.log("new: ", newData);
+//        console.log("old: ", oldData);
+//      },
+
+      // helper function
+      jsonStringify: function(obj) {
+        return JSON.stringify(obj, null, 2);
+      }
+
+
+    });
+  </script>
+</dom-module>
