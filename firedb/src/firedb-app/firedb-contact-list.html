@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
 
 
 <dom-module id="firedb-contact-list">
@@ -24,9 +25,13 @@
           data="{{contacts}}">
       </firebase-query>
 
-      <template is="dom-repeat" items="{{contacts}}" as="qcontact">
-        <div>{{jsonStringify(qcontact)}}</div>
-      </template>
+      <iron-list items="[[contacts]]" as="item" id="list" sc roll-target="document">
+        <template>
+            <div>{{jsonStringify(item)}}
+              <button on-tap='editContact'>Edit</button>
+            </div>
+        </template>
+      </iron-list>
 
     </paper-material>
 
@@ -49,6 +54,12 @@
 //        console.log("new: ", newData);
 //        console.log("old: ", oldData);
 //      },
+
+      editContact: function(event) {
+        console.log(event.model.get('qcontact.$key'));
+        this.contactId = event.model.get('qcontact.$key');
+//        alert("contactKey");
+      },
 
       // helper function
       jsonStringify: function(obj) {
