@@ -19,17 +19,17 @@
     <paper-material elevation="5">
       <h2>Contact List</h2>
 
-      <firebase-query
-          id="query"
-          path="/contact"
-          data="{{contacts}}">
-      </firebase-query>
-
-      <iron-list items="[[contacts]]" as="item" id="list" sc roll-target="document">
+      <iron-list items="{{contacts}}" as="item" id="list" sc roll-target="document">
         <template>
-            <div>{{jsonStringify(item)}}
-              <button on-tap='editContact'>Edit</button>
-            </div>
+          <div>
+            <span>
+            Name: [[item.name]]
+            </span>
+            <span>
+            <button on-tap="_editContact" ref="[[item]]">Edit</button>
+              <!--key: [[item.$key]]-->
+            </span>
+          </div>
         </template>
       </iron-list>
 
@@ -42,30 +42,31 @@
 
       is: 'firedb-contact-list',
 
-//      properties: {
-//        contacts: {
-//          type: Object,
-//          observer: 'dataChanged'
-//        }
-//      },
+      properties: {
+        contacts: {
+          type: Array
+        }
+      },
 
-//      dataChanged: function (newData, oldData) {
-//        // do something when the query returns values
-//        console.log("new: ", newData);
-//        console.log("old: ", oldData);
-//      },
+      _editContact: function(event) {
+        var button = this._getEventTarget(event);
+        var ref = button.ref;
+        console.log("editContact", ref);
+        this.fire('contact-edit', {ref: ref });
+      },
 
-      editContact: function(event) {
-        console.log(event.model.get('qcontact.$key'));
-        this.contactId = event.model.get('qcontact.$key');
-//        alert("contactKey");
+      _getEventTarget: function(event) {
+        var button = Polymer.dom(event).localTarget;
+
+        // TODO: figure out why this is: If you click on the icon, the
+        // rootTarget/localTarget is the icon and not the button
+        return (button.tagName === 'IRON-ICON') ? button.parentNode : button;
       },
 
       // helper function
       jsonStringify: function(obj) {
         return JSON.stringify(obj, null, 2);
       }
-
 
     });
   </script>

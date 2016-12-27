@@ -1,5 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 
 
@@ -18,14 +18,20 @@
     <paper-material elevation="5">
       <h2>Contact</h2>
 
-      <firebase-document
-          id="contact"
-          path="/contact/{{contactId}}"
-          data="{{contact}}">
-      </firebase-document>
+      <!--<firebase-document-->
+          <!--id="contact"-->
+          <!--path="/contact/{{contactId}}"-->
+          <!--data="{{contact}}">-->
+      <!--</firebase-document>-->
 
+      <!--<input is="iron-input" label="Name" bind-value="{{contact.name}}"></input>-->
+      <!--<input is="iron-input"-->
+             <!--bind-value="{{contact.name}}">-->
+      <!--</input>-->
       <paper-input label="Name" value="{{contact.name}}"></paper-input>
-      <button on-tap="saveContact">Add</button>
+      <button on-tap="_saveContact" ref={{contact}}">Add</button>
+      <!--contact [[jsonStringify(contact)]]-->
+
     </paper-material>
 
   </template>
@@ -35,23 +41,30 @@
 
       is: 'firedb-contact',
 
-      properties: {
-        contactId: {
-          type: String,
-          notify: true
-        },
+//      properties: {
+//        contactId: {
+//          type: String,
+//          notify: true
+//        },
         contact: {
           type: Object,
           value: {"name":""},
           notify: true
-        }
+        },
+
+      _saveContact: function(event) {
+        var button = this._getEventTarget(event);
+        var ref = button.ref;
+        console.log("_saveContact",ref);
+        this.fire('contact-save', {ref: ref } );
       },
 
-      saveContact: function () {
-        this.$.contact.save("/contact").then(function () {
-          // after document saved, path will be changed to the new ref
-          // any change of data will sent back up and stored
-        });
+      _getEventTarget: function(event) {
+        var button = Polymer.dom(event).localTarget;
+
+        // TODO: figure out why this is: If you click on the icon, the
+        // rootTarget/localTarget is the icon and not the button
+        return (button.tagName === 'IRON-ICON') ? button.parentNode : button;
       },
 
       // helper function

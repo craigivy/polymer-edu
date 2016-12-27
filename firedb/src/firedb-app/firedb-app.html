@@ -14,15 +14,78 @@
 
     <firebase-config></firebase-config>
 
-    <firedb-contact></firedb-contact>
+    <firebase-document
+        id="contact"
+        path="/contact/{{editableContactId}}"
+        data="{{editableContact}}">
+    </firebase-document>
 
-    <firedb-contact-list></firedb-contact-list>
+
+    <firedb-contact contact="{{editableContact}}"></firedb-contact>
+    <div>
+    <!--id? {{editableContactId}}-->
+    <!--obj {{jsonStringify(editableContact)}}-->
+    </div>
+
+    <firebase-query
+        id="query"
+        path="/contact"
+        data="{{contacts}}">
+    </firebase-query>
+
+    <firedb-contact-list contacts="{{contacts}}"></firedb-contact-list>
 
   </template>
 
   <script>
     Polymer({
       is: 'firedb-app',
-    });
+
+      editableContactId: {
+        type: String,
+          notify: true
+      },
+      editableContact: {
+        type: Object,
+        notify: true
+      },
+
+
+      listeners: {
+        'contact-edit': '_contactEdit',
+        'contact-save': '_contactSave'
+      },
+
+      _contactEdit: function(event) {
+//        this.editableContact = event.detail.ref;
+//        console.log('contactEdit contact 1', this.editableContact);
+        this.editableContactId = event.detail.ref.$key;
+//        this.contactId = this.contact.$key;
+//        console.log('_contactEdit key', this.editableContactId);
+//        console.log('_contactEdit contact 2', this.editableContact);
+//        console.log('_contactEdit ref', event.detail.ref);
+      },
+
+      // helper function
+      jsonStringify: function(obj) {
+        return JSON.stringify(obj, null, 2);
+      },
+
+
+      _contactSave: function(event) {
+//        console.log('_contactSave ',this.editableContact);
+//        console.log('_contactSave ',this.editableContactId)
+        if (!this.editableContactId) {
+          this.$.contact.save("/contact/").then(function () {
+            this.$.contact.reset();
+            // after document saved, path will be changed to the new ref
+            // any change of data will sent back up and stored
+          }.bind(this));
+
+        }
+
+      }
+
+      });
   </script>
 </dom-module>
