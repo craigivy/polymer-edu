@@ -20,12 +20,7 @@
         data="{{editableContact}}">
     </firebase-document>
 
-
     <firedb-contact contact="{{editableContact}}"></firedb-contact>
-    <div>
-    <!--id? {{editableContactId}}-->
-    <!--obj {{jsonStringify(editableContact)}}-->
-    </div>
 
     <firebase-query
         id="query"
@@ -57,13 +52,7 @@
       },
 
       _contactEdit: function(event) {
-//        this.editableContact = event.detail.ref;
-//        console.log('contactEdit contact 1', this.editableContact);
         this.editableContactId = event.detail.ref.$key;
-//        this.contactId = this.contact.$key;
-//        console.log('_contactEdit key', this.editableContactId);
-//        console.log('_contactEdit contact 2', this.editableContact);
-//        console.log('_contactEdit ref', event.detail.ref);
       },
 
       // helper function
@@ -71,10 +60,7 @@
         return JSON.stringify(obj, null, 2);
       },
 
-
       _contactSave: function(event) {
-//        console.log('_contactSave ',this.editableContact);
-//        console.log('_contactSave ',this.editableContactId)
         if (!this.editableContactId) {
           this.$.contact.save("/contact/").then(function () {
             this.$.contact.reset();
@@ -83,7 +69,6 @@
           }.bind(this));
 
         }
-
       }
 
       });

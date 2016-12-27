@@ -18,19 +18,8 @@
     <paper-material elevation="5">
       <h2>Contact</h2>
 
-      <!--<firebase-document-->
-          <!--id="contact"-->
-          <!--path="/contact/{{contactId}}"-->
-          <!--data="{{contact}}">-->
-      <!--</firebase-document>-->
-
-      <!--<input is="iron-input" label="Name" bind-value="{{contact.name}}"></input>-->
-      <!--<input is="iron-input"-->
-             <!--bind-value="{{contact.name}}">-->
-      <!--</input>-->
       <paper-input label="Name" value="{{contact.name}}"></paper-input>
       <button on-tap="_saveContact" ref={{contact}}">Add</button>
-      <!--contact [[jsonStringify(contact)]]-->
 
     </paper-material>
 
@@ -41,16 +30,11 @@
 
       is: 'firedb-contact',
 
-//      properties: {
-//        contactId: {
-//          type: String,
-//          notify: true
-//        },
-        contact: {
-          type: Object,
-          value: {"name":""},
-          notify: true
-        },
+      contact: {
+        type: Object,
+        value: {"name": ""},
+        notify: true
+      },
 
       _saveContact: function(event) {
         var button = this._getEventTarget(event);
