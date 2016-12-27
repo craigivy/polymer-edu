@@ -31,8 +31,14 @@ Setup the database roles to read and write without authorization.  This can be d
 
 First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
 
-## Viewing Your Application
+## Local
 
 ```
 $ polymer serve
 ```
+
+## Firebase
+````
+$ polymer build
+$ firebase deploy
+````
