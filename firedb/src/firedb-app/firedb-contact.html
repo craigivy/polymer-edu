@@ -19,7 +19,12 @@
       <h2>Contact</h2>
 
       <paper-input label="Name" value="{{contact.name}}"></paper-input>
-      <button on-tap="_saveContact" ref={{contact}}">Add</button>
+      <template is="dom-if" if="[[exists]]">
+        <button on-tap="_saveContact" ref={{contact}}">Done</button>
+      </template>
+      <template is="dom-if" if="[[!exists]]">
+        <button on-tap="_saveContact" ref={{contact}}">Add</button>
+      </template>
 
     </paper-material>
 
@@ -30,6 +35,10 @@
 
       is: 'firedb-contact',
 
+      exists: {
+        type: Boolean
+      },
+
       contact: {
         type: Object,
         value: {"name": ""},
@@ -37,9 +46,10 @@
       },
 
       _saveContact: function(event) {
+        console.log("_saveContact contact: ", this._jsonStringify(this.contact))
         var button = this._getEventTarget(event);
         var ref = button.ref;
-        console.log("_saveContact",ref);
+        console.log("_saveContact", this._jsonStringify(ref));
         this.fire('contact-save', {ref: ref } );
       },
 
@@ -52,7 +62,7 @@
       },
 
       // helper function
-      jsonStringify: function(obj) {
+      _jsonStringify: function(obj) {
         return JSON.stringify(obj, null, 2);
       }
 

@@ -20,7 +20,7 @@
         data="{{editableContact}}">
     </firebase-document>
 
-    <firedb-contact contact="{{editableContact}}"></firedb-contact>
+    <firedb-contact contact="{{editableContact}}" exists="{{exists}}"></firedb-contact>
 
     <firebase-query
         id="query"
@@ -44,14 +44,24 @@
         type: Object,
         notify: true
       },
-
+      exists: {
+        type: Boolean,
+        value: false,
+        notify: true
+      },
 
       listeners: {
         'contact-edit': '_contactEdit',
         'contact-save': '_contactSave'
       },
 
+      ready: function() {
+        this.exists = false;
+        console.log(this.localName + '#' + this.id + ' was created');
+      },
+
       _contactEdit: function(event) {
+        this.exists = true;
         this.editableContactId = event.detail.ref.$key;
       },
 
@@ -61,15 +71,35 @@
       },
 
       _contactSave: function(event) {
+
+        console.log("_contactSave contact: ", this.jsonStringify(this.editableContact));
+        console.log("_contactSave editableContactId: ", this.editableContactId);
+        console.log("_contactSave exists: ", this.exists);
+
         if (!this.editableContactId) {
           this.$.contact.save("/contact/").then(function () {
             this.$.contact.reset();
+            this._clearEditableContact();
+
             // after document saved, path will be changed to the new ref
             // any change of data will sent back up and stored
           }.bind(this));
-
+        } else {
+          this._clearEditableContact();
         }
+      },
+
+      _clearEditableContact: function() {
+        this.editableContactId="";
+        this.editableContact = new Object();
+        this.exists = false;
+      },
+
+      // helper function
+      jsonStringify: function(obj) {
+        return JSON.stringify(obj, null, 2);
       }
+
 
       });
   </script>
