@@ -16,7 +16,7 @@
 
     <firebase-document
         id="contact"
-        path="/contact/{{editableContactId}}"
+        path="/contact/[[editableContactId]]"
         data="{{editableContact}}">
     </firebase-document>
 
@@ -62,6 +62,7 @@
 
       _contactEdit: function(event) {
         this.exists = true;
+        console.log("_contactEdit key: ", event.detail.ref.$key);
         this.editableContactId = event.detail.ref.$key;
       },
 
@@ -84,6 +85,7 @@
             // after document saved, path will be changed to the new ref
             // any change of data will sent back up and stored
           }.bind(this));
+          return Promise.resolve();
         } else {
           this._clearEditableContact();
         }
