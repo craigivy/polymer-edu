@@ -20,13 +20,11 @@
     <paper-material elevation="5">
       <h2>Contact List</h2>
 
-      <!--<div role="listbox">-->
       <iron-list items="{{contacts}}" as="item" id="list" sc roll-target="document">
         <template>
           <paper-item on-tap="_editContact" ref="[[item]]">[[item.name]]</paper-item>
         </template>
       </iron-list>
-      <!--</div>-->
     </paper-material>
 
   </template>
