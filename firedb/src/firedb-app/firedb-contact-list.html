@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../../bower_components/iron-list/iron-list.html">
-
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 
 <dom-module id="firedb-contact-list">
   <template>
@@ -16,21 +16,17 @@
         padding: 12px;
       }
     </style>
+
     <paper-material elevation="5">
       <h2>Contact List</h2>
 
+      <!--<div role="listbox">-->
       <iron-list items="{{contacts}}" as="item" id="list" sc roll-target="document">
         <template>
-          <div>
-            <span>
-            Name: [[item.name]]
-            </span>
-            <span>
-            <button on-tap="_editContact" ref="[[item]]">Edit</button>
-            </span>
-          </div>
+          <paper-item on-tap="_editContact" ref="[[item]]">[[item.name]]</paper-item>
         </template>
       </iron-list>
+      <!--</div>-->
     </paper-material>
 
   </template>
