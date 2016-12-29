@@ -21,6 +21,7 @@
       <paper-input label="Name" value="{{contact.name}}"></paper-input>
       <template is="dom-if" if="[[exists]]">
         <button on-tap="_saveContact" ref={{contact}}">Done</button>
+        <button on-tap="_deleteContact" ref={{contact}}">Delete</button>
       </template>
       <template is="dom-if" if="[[!exists]]">
         <button on-tap="_saveContact" ref={{contact}}">Add</button>
@@ -52,6 +53,13 @@
         console.log("_saveContact", this._jsonStringify(ref));
         this.fire('contact-save', {ref: ref } );
       },
+
+      _deleteContact: function(event) {
+        var button = this._getEventTarget(event);
+        var ref = button.ref;
+        this.fire('contact-delete', {ref: ref } );
+      },
+
 
       _getEventTarget: function(event) {
         var button = Polymer.dom(event).localTarget;

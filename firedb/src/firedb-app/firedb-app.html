@@ -52,7 +52,8 @@
 
       listeners: {
         'contact-edit': '_contactEdit',
-        'contact-save': '_contactSave'
+        'contact-save': '_contactSave',
+        'contact-delete': '_contactDelete'
       },
 
       ready: function() {
@@ -95,6 +96,11 @@
         this.editableContactId="";
         this.editableContact = new Object();
         this.exists = false;
+      },
+
+      _contactDelete: function(event) {
+        this.$.contact.destroy();
+        this._clearEditableContact();
       },
 
       // helper function
