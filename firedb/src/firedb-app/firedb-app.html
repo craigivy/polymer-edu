@@ -67,14 +67,9 @@
         this.editableContactId = event.detail.ref.$key;
       },
 
-      // helper function
-      jsonStringify: function(obj) {
-        return JSON.stringify(obj, null, 2);
-      },
-
       _contactSave: function(event) {
 
-        console.log("_contactSave contact: ", this.jsonStringify(this.editableContact));
+        console.log("_contactSave contact: ", this._jsonStringify(this.editableContact));
         console.log("_contactSave editableContactId: ", this.editableContactId);
         console.log("_contactSave exists: ", this.exists);
 
@@ -104,10 +99,9 @@
       },
 
       // helper function
-      jsonStringify: function(obj) {
+      _jsonStringify: function(obj) {
         return JSON.stringify(obj, null, 2);
       }
-
 
       });
   </script>
