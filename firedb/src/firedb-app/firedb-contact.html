@@ -1,6 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 
 
 <dom-module id="firedb-contact">
@@ -14,17 +16,21 @@
         margin: 24px;
         padding: 12px;
       }
+      paper-fab {
+        display: inline-block;
+      }
+
     </style>
     <paper-material elevation="5">
       <h2>Contact</h2>
 
       <paper-input label="Name" value="{{contact.name}}"></paper-input>
       <template is="dom-if" if="[[exists]]">
-        <button on-tap="_saveContact" ref={{contact}}">Done</button>
-        <button on-tap="_deleteContact" ref={{contact}}">Delete</button>
+        <paper-fab mini icon="done" on-tap="_saveContact" ref={{contact}}></paper-fab>
+        <paper-fab mini icon="delete" on-tap="_deleteContact" ref={{contact}}></paper-fab>
       </template>
       <template is="dom-if" if="[[!exists]]">
-        <button on-tap="_saveContact" ref={{contact}}">Add</button>
+        <paper-fab mini icon="add" on-tap="_saveContact" ref={{contact}}></paper-fab>
       </template>
 
     </paper-material>
