@@ -20,7 +20,7 @@
         data="{{editableContact}}">
     </firebase-document>
 
-    <firedb-contact contact="{{editableContact}}" exists="{{exists}}"></firedb-contact>
+    <firedb-contact contact="{{editableContact}}" exists="[[exists]]"></firedb-contact>
 
     <firebase-query
         id="query"
@@ -28,7 +28,7 @@
         data="{{contacts}}">
     </firebase-query>
 
-    <firedb-contact-list contacts="{{contacts}}"></firedb-contact-list>
+    <firedb-contact-list contacts="[[contacts]]"></firedb-contact-list>
 
   </template>
 
