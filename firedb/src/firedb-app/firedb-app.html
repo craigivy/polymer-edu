@@ -1,5 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../../bower_components/app-layout/app-layout.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="./firebase-config.html">
 <link rel="import" href="./firedb-contact.html">
 <link rel="import" href="./firedb-contact-list.html">
@@ -10,25 +12,66 @@
       :host {
         display: block;
       }
+      app-header {
+        color: #fff;
+        background-color: var(--paper-light-blue-500);
+      }
+      /* logout button */
+      app-toolbar paper-button {
+        font-size: 14px;
+        letter-spacing: 1px;
+        color: white;
+      }
+      .avatar {
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        vertical-align: middle;
+        margin-left: 16px;
+      }
     </style>
 
     <firebase-config></firebase-config>
 
-    <firebase-document
-        id="contact"
-        path="/contact/[[editableContactId]]"
-        data="{{editableContact}}">
-    </firebase-document>
+    <firebase-auth
+        id="auth"
+        provider="google"
+        signed-in="{{signedIn}}"
+        user="{{user}}">
+    </firebase-auth>
 
-    <firedb-contact contact="{{editableContact}}" exists="[[exists]]"></firedb-contact>
+    <app-header-layout>
 
-    <firebase-query
-        id="query"
-        path="/contact"
-        data="{{contacts}}">
-    </firebase-query>
+      <app-header fixed>
+        <app-toolbar>
+          <div main-title>Contacts</div>
+          <template is="dom-if" if="[[user]]">
+            <img class="avatar" alt="avatar" src="[[user.photoURL]]">
+            <paper-button on-tap="_signOut">Sign Out</paper-button>
+          </template>
+          <template is="dom-if" if="[[!user]]">
+            <paper-button on-tap="_signIn">Sign In</paper-button>
+          </template>
+        </app-toolbar>
+      </app-header>
 
-    <firedb-contact-list contacts="[[contacts]]"></firedb-contact-list>
+      <firebase-document
+          id="contact"
+          path="/contact/[[editableContactId]]"
+          data="{{editableContact}}">
+      </firebase-document>
+
+      <firedb-contact contact="{{editableContact}}" exists="[[exists]]"></firedb-contact>
+
+      <firebase-query
+          id="query"
+          path="/contact"
+          data="{{contacts}}">
+      </firebase-query>
+
+      <firedb-contact-list contacts="[[contacts]]"></firedb-contact-list>
+
+    </app-header-layout>
 
   </template>
 
@@ -96,6 +139,17 @@
       _contactDelete: function(event) {
         this.$.contact.destroy();
         this._clearEditableContact();
+      },
+
+      _signIn: function() {
+        this.$.auth.signInWithPopup();
+        console.log(this._jsonStringify(this.user));
+      },
+
+      _signOut: function() {
+        if (this.$.auth) {
+          this.$.auth.signOut();
+        }
       },
 
       // helper function
