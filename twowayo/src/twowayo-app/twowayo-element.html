@@ -36,6 +36,15 @@
           notify: true
         }
       },
+      observers: [
+        // _messageChange(message.prop1) can also be used
+        '_messageChange(message.*)'
+      ],
+
+
+      _messageChange: function(newValue) {
+        console.log('new=', newValue);
+      },
 
       updateMessage: function() {
         this.set('message.prop1', this.prop2);

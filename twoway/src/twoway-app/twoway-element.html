@@ -33,8 +33,13 @@
         prop1: {
           type: String,
           value: 'test-element',
-          notify: true
+          notify: true,
+          observer: '_prop1Change'
         }
+      },
+
+      _prop1Change: function(newValue, oldValue) {
+        console.log('new=', newValue, ' old=', oldValue);
       },
 
       updateMessage: function() {
