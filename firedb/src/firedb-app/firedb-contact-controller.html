@@ -7,7 +7,6 @@
 <link rel="import" href="./firedb-contact-list.html">
 <link rel="import" href="../../bower_components/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.html">
 
-
 <dom-module id="firedb-contact-controller">
   <template>
     <style>
@@ -38,7 +37,6 @@
 
       <firedb-contact-list contacts="[[contacts]]"></firedb-contact-list>
 
-
   </template>
 
   <script>
@@ -50,20 +48,6 @@
           type: Array,
           observer: '_contactsChanged'
         }
-      },
-
-      editableContactId: {
-        type: String,
-        notify: true
-      },
-      editableContact: {
-        type: Object,
-        notify: true
-      },
-      exists: {
-        type: Boolean,
-        value: false,
-        notify: true
       },
 
       listeners: {
