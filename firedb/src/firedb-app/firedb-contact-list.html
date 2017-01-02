@@ -20,7 +20,7 @@
     <paper-material elevation="5">
       <h2>Contact List</h2>
 
-      <iron-list items="{{contacts}}" as="item" id="list" sc roll-target="document">
+      <iron-list items="[[contacts]]" as="item" id="list" sc roll-target="document">
         <template>
           <paper-item on-tap="_editContact" ref="[[item]]">[[item.name]]</paper-item>
         </template>
@@ -43,7 +43,7 @@
       _editContact: function(event) {
         var button = this._getEventTarget(event);
         var ref = button.ref;
-        console.log("editContact", ref);
+        console.log("editContact=", this._jsonStringify(ref));
         this.fire('contact-edit', {ref: ref });
       },
 
@@ -56,7 +56,7 @@
       },
 
       // helper function
-      jsonStringify: function(obj) {
+      _jsonStringify: function(obj) {
         return JSON.stringify(obj, null, 2);
       }
 
