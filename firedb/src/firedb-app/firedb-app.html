@@ -77,8 +77,6 @@
       ],
 
       _userChanged: function(uid) {
-//        var path = uid || 'global';
-//        this.set('path', path);
         this.path = uid || 'global';
         this.notifyPath('path');
         console.log("path=", this.path);
@@ -88,7 +86,6 @@
         this.$.auth.signInWithPopup()
         .then(function(response) {
           console.log(response);
-//          this.path = response.user.uid;
           this.path=null;
         }.bind(this));
       },
@@ -96,7 +93,6 @@
 
       _signOut: function() {
         if (this.$.auth) {
-//          this.path='global';
           this.path=null;
           this.$.auth.signOut();
         }
