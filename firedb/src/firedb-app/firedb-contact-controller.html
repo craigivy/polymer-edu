@@ -1,0 +1,136 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../../bower_components/app-layout/app-layout.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="./firebase-config.html">
+<link rel="import" href="./firedb-contact.html">
+<link rel="import" href="./firedb-contact-list.html">
+<link rel="import" href="../../bower_components/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.html">
+
+
+<dom-module id="firedb-contact-controller">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+      <firebase-document
+          id="contact"
+          path="user/[[path]]/contact/[[editableContactId]]"
+          data="{{editableContact}}">
+      </firebase-document>
+      path: [[path]]
+      <firedb-contact contact="{{editableContact}}" exists="[[exists]]"></firedb-contact>
+
+      <firebase-query
+          id="query"
+          path="user/[[path]]/contact"
+          data="{{contacts}}">
+      </firebase-query>
+    <!--<app-indexeddb-mirror-->
+        <!--session="[[path]]"-->
+        <!--key="user/[[path]]/contact"-->
+        <!--data="[[fbcontacts]]"-->
+        <!--persisted-data="{{contacts}}">-->
+    <!--</app-indexeddb-mirror>-->
+
+      <firedb-contact-list contacts="[[contacts]]"></firedb-contact-list>
+
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'firedb-contact-controller',
+
+      properties: {
+        contacts: {
+          type: Array,
+          observer: '_contactsChanged'
+        }
+      },
+
+      editableContactId: {
+        type: String,
+        notify: true
+      },
+      editableContact: {
+        type: Object,
+        notify: true
+      },
+      exists: {
+        type: Boolean,
+        value: false,
+        notify: true
+      },
+
+      listeners: {
+        'contact-edit': '_contactEdit',
+        'contact-save': '_contactSave',
+        'contact-delete': '_contactDelete'
+      },
+
+      observers: [
+        '_addOrRemoveContact(contacts.splices)'
+      ],
+
+      _addOrRemoveContact: function(changeRecord) {
+        console.log("contacts added or removed =", this.contacts);
+      },
+
+      _contactsChanged: function(contacts) {
+        console.log("contacts changed =", contacts);
+      },
+
+      ready: function() {
+        this.exists = false;
+        console.log("ready path", this.path);
+        console.log(this.localName + '#' + this.id + ' was created');
+      },
+
+      _contactEdit: function(event) {
+        this.exists = true;
+        console.log("_contactEdit key: ", event.detail.ref.$key);
+        this.editableContactId = event.detail.ref.$key;
+      },
+
+      _contactSave: function(event) {
+
+        console.log("_contactSave contact: ", this._jsonStringify(this.editableContact));
+//        console.log("_contactSave exists: ", this.exists);
+//        console.log("_contactSave path: ", this.path);
+
+        if (!this.editableContactId) {
+          var path = 'user/' + this.path + '/contact/'
+          console.log('save path=', path);
+          this.$.contact.save(path).then(function () {
+            this.$.contact.reset();
+            this._clearEditableContact();
+          }.bind(this));
+          return Promise.resolve();
+        } else {
+          this._clearEditableContact();
+        }
+      },
+
+      _clearEditableContact: function() {
+        this.editableContactId="";
+        this.editableContact = new Object();
+        this.exists = false;
+      },
+
+      _contactDelete: function(event) {
+        this.$.contact.destroy();
+        this._clearEditableContact();
+      },
+
+      // helper function
+      _jsonStringify: function(obj) {
+        return JSON.stringify(obj, null, 2);
+      }
+
+    });
+  </script>
+</dom-module>

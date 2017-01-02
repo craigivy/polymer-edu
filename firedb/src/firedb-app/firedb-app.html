@@ -3,8 +3,7 @@
 <link rel="import" href="../../bower_components/app-layout/app-layout.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="./firebase-config.html">
-<link rel="import" href="./firedb-contact.html">
-<link rel="import" href="./firedb-contact-list.html">
+<link rel="import" href="./firedb-contact-controller.html">
 
 <dom-module id="firedb-app">
   <template>
@@ -54,22 +53,8 @@
           </template>
         </app-toolbar>
       </app-header>
-
-      <firebase-document
-          id="contact"
-          path="/contact/[[editableContactId]]"
-          data="{{editableContact}}">
-      </firebase-document>
-
-      <firedb-contact contact="{{editableContact}}" exists="[[exists]]"></firedb-contact>
-
-      <firebase-query
-          id="query"
-          path="/contact"
-          data="{{contacts}}">
-      </firebase-query>
-
-      <firedb-contact-list contacts="[[contacts]]"></firedb-contact-list>
+      <firedb-contact-controller path="[[path]]"></firedb-contact-controller>
+      parent path: [[path]]
 
     </app-header-layout>
 
@@ -79,75 +64,40 @@
     Polymer({
       is: 'firedb-app',
 
-      editableContactId: {
-        type: String,
+      properties: {
+        path: {
+          type: String,
           notify: true
-      },
-      editableContact: {
-        type: Object,
-        notify: true
-      },
-      exists: {
-        type: Boolean,
-        value: false,
-        notify: true
-      },
-
-      listeners: {
-        'contact-edit': '_contactEdit',
-        'contact-save': '_contactSave',
-        'contact-delete': '_contactDelete'
-      },
-
-      ready: function() {
-        this.exists = false;
-        console.log(this.localName + '#' + this.id + ' was created');
-      },
-
-      _contactEdit: function(event) {
-        this.exists = true;
-        console.log("_contactEdit key: ", event.detail.ref.$key);
-        this.editableContactId = event.detail.ref.$key;
-      },
-
-      _contactSave: function(event) {
-
-        console.log("_contactSave contact: ", this._jsonStringify(this.editableContact));
-        console.log("_contactSave editableContactId: ", this.editableContactId);
-        console.log("_contactSave exists: ", this.exists);
-
-        if (!this.editableContactId) {
-          this.$.contact.save("/contact/").then(function () {
-            this.$.contact.reset();
-            this._clearEditableContact();
-
-            // after document saved, path will be changed to the new ref
-            // any change of data will sent back up and stored
-          }.bind(this));
-          return Promise.resolve();
-        } else {
-          this._clearEditableContact();
         }
+
       },
 
-      _clearEditableContact: function() {
-        this.editableContactId="";
-        this.editableContact = new Object();
-        this.exists = false;
-      },
+      observers: [
+        '_userChanged(user.uid)'
+      ],
 
-      _contactDelete: function(event) {
-        this.$.contact.destroy();
-        this._clearEditableContact();
+      _userChanged: function(uid) {
+//        var path = uid || 'global';
+//        this.set('path', path);
+        this.path = uid || 'global';
+        this.notifyPath('path');
+        console.log("path=", this.path);
       },
 
       _signIn: function() {
-        this.$.auth.signInWithPopup();
-        console.log(this._jsonStringify(this.user));
+        this.$.auth.signInWithPopup()
+        .then(function(response) {
+          console.log(response);
+//          this.path = response.user.uid;
+          this.path=null;
+        }.bind(this));
       },
+
 
       _signOut: function() {
         if (this.$.auth) {
+//          this.path='global';
+          this.path=null;
           this.$.auth.signOut();
         }
       },

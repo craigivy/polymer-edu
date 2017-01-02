@@ -8,7 +8,10 @@ https://github.com/notwaldorf/mojibrag
 https://www.youtube.com/watch?v=6t2JRKTCYbI
 - https://codelabs.developers.google.com/codelabs/polymer-firebase-pwa/index.html#0 
 https://github.com/polymerlabs/note-app-elements
-  
+
+## Edu
+- firebase query [blog](https://firebase.googleblog.com/2014/11/firebase-now-with-more-querying.html)  
+- google [lessons learned](https://www.youtube.com/watch?v=zfQoleQEa4w) web components
 
 
 
