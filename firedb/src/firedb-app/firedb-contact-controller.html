@@ -20,7 +20,7 @@
           path="user/[[path]]/contact/[[editableContactId]]"
           data="{{editableContact}}">
       </firebase-document>
-      path: [[path]]
+
       <firedb-contact contact="{{editableContact}}" exists="[[exists]]"></firedb-contact>
 
       <firebase-query
@@ -83,8 +83,6 @@
       _contactSave: function(event) {
 
         console.log("_contactSave contact: ", this._jsonStringify(this.editableContact));
-//        console.log("_contactSave exists: ", this.exists);
-//        console.log("_contactSave path: ", this.path);
 
         if (!this.editableContactId) {
           var path = 'user/' + this.path + '/contact/'

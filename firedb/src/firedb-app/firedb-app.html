@@ -54,7 +54,6 @@
         </app-toolbar>
       </app-header>
       <firedb-contact-controller path="[[path]]"></firedb-contact-controller>
-      parent path: [[path]]
 
     </app-header-layout>
 
@@ -89,7 +88,6 @@
           this.path=null;
         }.bind(this));
       },
-
 
       _signOut: function() {
         if (this.$.auth) {
